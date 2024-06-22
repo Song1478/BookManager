@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.adress {
+  height: 680px;
+}
+
+.adress_wrap {
+  display: flex;
+  justify-content: space-between;
+  height: 500px;
+}
+
+.map_wrap {
+  width: 50%;
+  height: 500px;
+  background-color: white;
+}
+.map {
+  height: 430px;
+  border: 3px solid #e0f8de;
+}
+.approach_wrap {
+  width: 45%;
+  margin-top: 3%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 3%;
+}
+
+.m_btn {
+  cursor: pointer;
+  width: 170px;
+  height: 80%;
+  margin: 5px;
+  background-color: #e0f8de;
+  border-radius: 10px;
+}
+
+.bus_road_wrap {
+  height: 100%;
+}
+
+.bus_header {
+  display: flex;
+  height: 25%;
+  border-bottom: 2px solid gainsboro;
+  align-items: center;
+  justify-content: space-between;
+}
+.bus_header p {
+  font-family: "NanumSquareNeoHeavy";
+  font-size: 45px;
+  color: #b1eeab;
+  text-shadow: 2px 1.5px 1px #000;
+}
+.bus {
+  margin-top: 4%;
+}
+.bus ul li {
+  font-family: "NanumSquareNeoHeavy";
+  color: rgb(114, 113, 113);
+  padding-bottom: 5%;
+}

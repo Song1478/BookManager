@@ -1,0 +1,239 @@
+#notice_board {
+  height: 500px;
+}
+.design {
+  display: flex;
+  height: 150px;
+  background-color: green;
+  align-items: center;
+  justify-content: center;
+}
+.design strong {
+  margin-top: -80px;
+  font-size: 35px;
+  color: #fff;
+}
+.board_wrap {
+  display: flex;
+  justify-content: space-between;
+}
+.board_view_wrap {
+  border: 2px solid rgb(92, 94, 91);
+  height: 800px;
+  border-radius: 10px;
+}
+.notice_wrap {
+  width: 50%;
+  margin-top: -65px;
+  margin-left: 5%;
+  border-radius: 10px;
+  height: 400px;
+}
+.notice_wrap p {
+  flex-wrap: wrap;
+}
+
+.board_list {
+  width: 55%;
+  margin-top: -65px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  margin-bottom: 100px;
+  height: 400px;
+  margin-right: 13%;
+  margin-left: 10%;
+  float: right;
+  border-bottom: 2px solid black;
+}
+.board {
+  background-color: white;
+  border-radius: 10px;
+}
+.board_title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.board_title strong {
+  font-size: 30px;
+}
+
+.top {
+  display: flex;
+  height: 70px;
+  background-color: rgb(232, 255, 216);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 1px dashed #ddd;
+}
+
+.li-item {
+  display: flex;
+  height: 45px;
+  border-bottom: 1px solid #ddd;
+}
+
+.board .num {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+.board .title {
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+.board .writer {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+.board .date {
+  width: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+.board .count {
+  margin-left: 5%;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+}
+.board_page {
+  text-align: center;
+  margin-top: 35px;
+}
+.board_page a {
+  display: inline-block;
+  width: 34px;
+  height: 34px;
+  box-sizing: border-box;
+  vertical-align: middle;
+  border: 2px solid black;
+  line-height: 100%;
+  border-radius: 6px;
+}
+
+.board_page a.bt {
+  padding-top: 10px;
+  font-size: 0.8rem;
+  letter-spacing: -1px;
+}
+
+.board_page a.num_p {
+  padding-top: 9px;
+  font-size: 0.9rem;
+}
+
+.board_page a.num_p.on {
+  border-color: black;
+  background: rgb(232, 255, 216);
+  color: black;
+}
+.board_page a.num_p:hover {
+  transform: translateY(-5px);
+  background: rgb(232, 255, 216);
+}
+.board_view {
+  border-radius: 10px;
+}
+
+.board_view .title {
+  padding: 20px 15px;
+  border-bottom: 1px dashed #ddd;
+  background: rgb(232, 255, 216);
+  font-size: 20px;
+  border-radius: 10px;
+}
+
+.board_view .board_info {
+  padding: 15px;
+  border-bottom: 1px solid #999;
+  font-size: 0;
+}
+
+.board_view .board_info dl {
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.board_view .board_info dl:first-child {
+  padding-left: 0;
+}
+
+.board_view .board_info dl::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 0;
+  display: block;
+  width: 1px;
+  height: 5px;
+  background: #ddd;
+}
+
+.board_view .board_info dl:first-child::before {
+  display: none;
+}
+
+.board_view .board_info dl dt,
+.board_view .board_info dl dd {
+  display: inline-block;
+  font-size: 15px;
+}
+
+.board_view .board_info dl dd {
+  margin-left: 10px;
+  color: #777;
+}
+
+.board_view .cont {
+  padding: 5px;
+  line-height: 160%;
+  font-size: 25px;
+}
+.bt_wrap {
+  margin-top: 30px;
+  text-align: center;
+  font-size: 0;
+}
+.bt_wrap a {
+  display: inline-block;
+  min-width: 80px;
+  margin-left: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+.bt_wrap a:first-child {
+  margin-left: 0;
+}
+
+.bt_wrap a.on {
+  background: #000;
+  color: #fff;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  background-color: blue;
+}
+.footer input {
+  font-size: 15px;
+}

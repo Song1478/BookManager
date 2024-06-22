@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet" />
+    <title>공지사항편집</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/Notice.css" />
+  </head>
+  <body style="background-color: #e0f8de">
+    <div id="header">
+      <div class="header-bar">
+        <div id="logo">
+          <img src="./img/logo.png" width="120px" height="100px" onclick="navigateToPage()" style="cursor: pointer" />
+        </div>
+        <div class="Menu-bar" id="Menu-bar_Manager" style="display: block">
+          <a class="Menu-item" type="button" href="Member.html">회원관리</a>
+          <a class="Menu-item" type="button" href="bookDataEdit.html">도서편집</a>
+          <a class="Menu-item" type="button" href="CheckBook.html">도서대출/반납</a>
+          <a class="Menu-item" type="button" href="Main.html">메인화면으로</a>
+        </div>
+        <div id="login">
+          <div id="login_after" style="display: block">
+            <button onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Main">
+      <div class="board_wrap">
+        <div class="notice_search">
+          <img src="./img/search.png" width="70px" height="60px" style="margin-left: 5px" />
+          <form id="searchForm" method="POST" action="/search_Notice">
+            <input type="text" id="search_bar" placeholder="공지사항 제목을 입력하세요" />
+            <input id="notice_search_btn" type="submit" value="검색" />
+          </form>
+          <img
+            src="./img/새로고침.png"
+            width="60px"
+            height="45px"
+            onclick="refresh()"
+            style="margin-right: 5%; margin-left: 1%; cursor: pointer"
+          />
+          <input type="button" id="add_btn" onclick="ModalVisible(true,true)" value="공지 등록" />
+        </div>
+        <div class="board_list">
+          <div class="board" id="board">
+            <div class="board_title"></div>
+            <div class="top">
+              <div class="num">번호</div>
+              <div class="title">제목</div>
+              <div class="writer">글쓴이</div>
+              <div class="date">작성일</div>
+              <div class="count">조회</div>
+            </div>
+          </div>
+        </div>
+        <div class="board_page" id="board_page"></div>
+      </div>
+    </div>
+    <section id="Notice-add-modal-wrap" style="display: none">
+      <div class="board-container">
+        <div id="board-div">
+          <div class="noti-title">
+            <input id="nt_title" type="text" placeholder="제목을 입력해주세요" />
+            <p>No.</p>
+            <p id="noti_num"></p>
+          </div>
+          <textarea id="subject" class="subject-area" placeholder="공지 사항 내용" required></textarea>
+          <div class="btn-wrap">
+            <input id="regist-Notice" class="modal-btn" type="button" value="등록" />
+            <input id="fix-Notice" class="modal-btn" type="button" value="수정" style="display: none" />
+            <input id="exit-modal" class="modal-btn" type="button" value="취소" onclick="ModalVisible(false,false)" />
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      function navigateToPage() {
+        window.location.href = "Main.html";
+      }
+      function ModalVisible(state, isInit) {
+        const title = document.getElementById("nt_title");
+        const contents = document.getElementById("subject");
+        const regist_btn = document.getElementById("regist-Notice");
+        const fix_btn = document.getElementById("fix-Notice");
+        const number = document.getElementById("noti_num");
+        const n = parseInt(notices[0].noti_num);
+        console.log(n + 1);
+        number.textContent = n + 1;
+        if (isInit) {
+          title.value = "";
+          contents.value = "";
+          regist_btn.style.display = "block";
+          fix_btn.style.display = "none";
+        }
+        if (state) {
+          document.getElementById("Notice-add-modal-wrap").style.display = "block";
+        } else {
+          document.getElementById("Notice-add-modal-wrap").style.display = "none";
+        }
+      }
+      function refresh() {
+        window.location.href = "Notice.html";
+      }
+      function notice_modal(num) {
+        document.getElementById("Notice-add-modal-wrap").style.display = "block";
+        const titleElement = document.getElementById(`title_${num}`);
+        const contentsElement = document.getElementById(`cont_${num}`);
+        const title = document.getElementById("nt_title");
+        const contents = document.getElementById("subject");
+        const notice_num = document.getElementById("noti_num");
+        const titleValue = titleElement.textContent;
+        const contentsValue = contentsElement.textContent;
+        const regist_btn = document.getElementById("regist-Notice");
+        const fix_btn = document.getElementById("fix-Notice");
+
+        title.value = "";
+        contents.value = "";
+        notice_num.textContent = "";
+
+        title.value = titleValue;
+        contents.value = contentsValue;
+        notice_num.textContent = num;
+        regist_btn.style.display = "none";
+        fix_btn.style.display = "block";
+      }
+      function logout() {
+        localStorage.removeItem("authToken");
+        window.location.href = "Main.html";
+      }
+    </script>
+    <script src="./js/Notice.js"></script>
+  </body>
+</html>

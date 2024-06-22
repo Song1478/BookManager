@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Search Result</title>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/SearchResult.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="header">
+      <div class="header-bar">
+        <div id="logo">
+          <img src="./img/logo.png" width="120px" height="100px" onclick="navigateToPage()" style="cursor: pointer" />
+        </div>
+        <div class="Menu-bar" id="Menu-bar_Member" style="display: block">
+          <a class="Menu-item" type="button" href="Main.html">메인화면으로</a>
+        </div>
+        <div id="login">
+          <div id="login_before">
+            <a href="Login.html">로그인</a>
+          </div>
+          <div id="login_after" style="display: none">
+            <button onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="Search_wrap">
+      <div class="search_bar_wrap">
+        <div id="search_bar">
+          <div class="search_bar_title">
+            <strong>도서 검색</strong>
+          </div>
+          <form id="searchForm" method="POST" action="/search">
+            <input id="booksearch_input" type="text" placeholder="도서 이름 입력" />
+            <input id="booksearch_button" type="submit" value="검색" />
+          </form>
+        </div>
+      </div>
+      <div id="search_Result">
+        <div class="Result_container">
+          <div class="Result_wrap">
+            <div class="Result_list_wrap">
+              <div class="Result_list" id="Result_list">
+                <div class="top">
+                  <div class="b_title">책 제목</div>
+                  <div class="b_writer">저자</div>
+                  <div class="b_publish">출판사</div>
+                  <div class="b_amount">수량</div>
+                </div>
+              </div>
+              <div class="board_page" id="board_page"></div>
+            </div>
+          </div>
+          <div class="Result_Detail" id="Result_Detail" style="display: none">
+            <div class="Detail_top">
+              <p id="p_title">제목</p>
+            </div>
+            <div class="Detail_middle">
+              <div class="Detail_middle_item">
+                <div class="Detail_Writer">
+                  <p id="p_writer">저자</p>
+                </div>
+                <div class="Detail_Publish">
+                  <p id="p_publish">출판사</p>
+                </div>
+              </div>
+              <div class="Detail_image" id="Detail_image"></div>
+            </div>
+            <div class="Detail_bottom">
+              <div class="Detail_info">
+                <p id="p_info">겁나 긴 내용</p>
+              </div>
+              <div class="Detail_amount">
+                <div class="amount_wrap">
+                  <p>책 번호:</p>
+                  <p id="p_num"></p>
+                  <p>재고 수량:</p>
+                  <p id="p_amount">수량</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", async () => {
+        const token = localStorage.getItem("authToken");
+        console.log("토큰존재 확인");
+        // 토큰의 존재로 로그인 여부 확인
+        if (!token) {
+          document.getElementById("loan_btn").style.display = "none";
+          console.log("토큰존재 없음");
+          return;
+        }
+        console.log("토큰존재 있음");
+        try {
+          const response = await fetch("/login/verify", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error("네트워크 이상.");
+          }
+
+          const data = await response.json();
+
+          if (!data.valid) {
+            localStorage.removeItem("authToken");
+            window.location.href = "login.html";
+          } else {
+            if (data.token) {
+              localStorage.setItem("authToken", data.token);
+            }
+            document.getElementById("login_before").style.display = "none";
+            document.getElementById("login_after").style.display = "block";
+            document.getElementById("loan_btn").style.display = "block";
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          return;
+          window.location.href = "Login.html";
+        }
+      });
+      function display_Detail(num) {
+        document.getElementById("Result_Detail").style.display = "block";
+        document.getElementById("p_title").textContent = document.getElementById(`b_title_${num}`).textContent;
+        document.getElementById("p_writer").textContent = document.getElementById(`b_writer_${num}`).textContent;
+        document.getElementById("p_publish").textContent = document.getElementById(`b_publish_${num}`).textContent;
+        document.getElementById("p_info").textContent = document.getElementById(`b_info_${num}`).textContent;
+        document.getElementById("p_amount").textContent = document.getElementById(`b_amount_${num}`).textContent;
+        document.getElementById("p_num").textContent = num;
+        const image_Url = document.getElementById(`b_image_${num}`).textContent;
+        const imageElement = document.getElementById("Detail_image");
+        imageElement.innerHTML = `<img src="${image_Url}" alt="이미지 설명" class="b_image">`;
+      }
+      function logout() {
+        localStorage.removeItem("authToken");
+        window.location.href = "Main.html";
+      }
+    </script>
+    <script src="./js/search_Result.js"></script>
+  </body>
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="kor">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>book Manger</title>
+    <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square-neo.css" rel="stylesheet" />
+    <link rel="stylesheet" href="./css/adress.css" />
+    <link rel="stylesheet" href="./css/calendar.css" />
+    <link rel="stylesheet" href="./css/infomation.css" />
+    <link rel="stylesheet" href="./css/notice_board.css" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/tools.css" />
+  </head>
+  <body>
+    <div id="header">
+      <div class="header-bar">
+        <div id="logo">
+          <img src="./img/logo.png" width="120px" height="100px" />
+        </div>
+        <div class="Menu-bar" id="Menu-bar_Member" style="display: none;">
+          <a class="Menu-item" type="button" href="mypage.html">내정보</a>
+      </div>
+      <div class="Menu-bar" id="Menu-bar_Manager" style="display: none;">
+        <a class="Menu-item" type="button" href="Member.html">회원관리</a>
+        <a class="Menu-item" type="button" href="CheckBook.html">도서대출/반납</a>
+        <a class="Menu-item" type="button" href="bookDataEdit.html">도서편집</a>
+        <a class="Menu-item" type="button" href="Notice.html">공지사항편집</a>
+    </div>
+        <div id="login">
+          <div id="login_before">
+            <a href="Login.html">로그인</a>
+          </div>
+          <div id="login_after" style="display: none;">
+            <button onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div id="wrap">
+      <div id="main">
+        <div id="tools">
+          <!--기능 div -->
+          <div class="tools_wrap">
+            <div class="tools_find_book">
+              <!-- 도서찾기 div-->
+              <div class="find_title">
+                <strong>도서 검색</strong>
+                <p>검색하고 싶은 도서의 정보를 입력하세요</p>
+              </div>
+              <div class="find_book">
+                <div>
+                  <form id="searchForm" method="POST" action="/search">
+                    <input id="booksearch_input" type="text" placeholder="도서 이름 입력" />
+                    <input id="booksearch_button" type="submit" value="검색" />
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="button_container" id="btn_container">
+              <input class="tool_button" type="button" onclick="change_section(0)" id="load_notice_btn" value="공지 사항 &#10; & &#10;휴관일" />
+              <input class="tool_button" type="button" onclick="change_section(1)" value="오시는 길" />
+              <input class="tool_button" type="button" onclick="change_section(2)" value="도서관 소개&#10;& &#10;이용안내" />
+            </div>
+          </div>
+        </div>
+        <section id="notice_N_dayoff" style="display: none">
+          <!-- 공지사항,오시는길,도서관소개,도서관이용안내-->
+          <div id="notice_board">
+            <!-- 공지사항 -->
+            <div class="design">
+              <strong>공지 사항</strong>
+            </div>
+            <div class="board_wrap">
+              <div class="notice_wrap">
+                <div class="board_view_wrap" id="board_view_wrap" style="display: none">
+                </div>
+              </div>
+              <div class="board_list" >
+                <div class="board" id="board">
+                  <div class="board_title"></div>
+                  <div class="top">
+                    <div class="num">번호</div>
+                    <div class="title">제목</div>
+                    <div class="writer">글쓴이</div>
+                    <div class="date">작성일</div>
+                    <div class="count">조회</div>
+                  </div>
+                </div>
+                <div class="board_page" id="board_page">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="c">
+            <div class="calendar">
+              <div class="month-nav-wrap">
+                <span id="month-title">5월의 도서관 휴관일</span>
+                <span class="month-nav-btn prev-month" onclick="prevMonth()"></span>
+                <span class="month-nav-btn next-month" onclick="nextMonth()"></span>
+              </div>
+              <table class="cal-table">
+                <thead>
+                  <tr>
+                    <td><div class="cal-head dayoff">일</div></td>
+                    <td><div class="cal-head">월</div></td>
+                    <td><div class="cal-head">화</div></td>
+                    <td><div class="cal-head">수</div></td>
+                    <td><div class="cal-head">목</div></td>
+                    <td><div class="cal-head">금</div></td>
+                    <td><div class="cal-head">토</div></td>
+                  </tr>
+                </thead>
+                <tbody id="cal-items"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+        <section id="adress" style="display: none">
+          <div class="adress">
+            <div class="design">
+              <strong>오시는 길</strong>
+            </div>
+            <div class="adress_wrap">
+              <div class="map_wrap">
+                <div class="map" id="map"></div>
+                <p style="height: 10%">
+                  <button class="m_btn" onclick="setDraggable(false)">드래그 이동 끄기</button>
+                  <button class="m_btn" onclick="setDraggable(true)">드래그 이동 켜기</button>
+                  <button class="m_btn" onclick="panTo()">지도 원점이동</button>
+                </p>
+              </div>
+              <div class="approach_wrap">
+                <div class="bus_road_wrap">
+                  <div class="bus_header">
+                    <p>버스 노선도</p>
+                    <img src="./img/bus.png" style="height: 130px; margin-bottom: 20px" />
+                  </div>
+                  <div class="bus">
+                    <ul>
+                      <li>100,110번: 성환역 - 직산역 - 공주대 공과대학 - 두정역 - 천안역</li>
+                      <li>120번: 직산역 - 공주대 공과대학</li>
+                      <li>121번: 종합터미널 - 두정역 - 공주대 공과대학</li>
+                      <li>140번: 직산역 - 산업단지 -공주대 공과대학 - 종합터미널</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="infomation" style="display: none">
+          <div class="infomation">
+            <div class="design">
+              <strong>도서관 소개 및 이용안내</strong>
+            </div>
+            <div class="infomation_wrap">
+              <div class="info_wrap">
+                <div class="info_header">
+                  <p>도서관 소개</p>
+                </div>
+                <div class="info_body"></div>
+              </div>
+              <div class="rule_wrap">
+                <div class="rule_header">
+                  <p>이용 안내</p>
+                </div>
+                <div class="rule_body"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div id="footer">
+          <p>추가정보</p>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d1403f45101d74eb05fd8a2b9a5967e7"></script>
+    <script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const token = localStorage.getItem("authToken");
+  console.log("토큰존재 확인")
+  // 토큰의 존재로 로그인 여부 확인
+  if (!token) {
+    document.getElementById("Menu-bar_Manager").style.display = "none";
+    document.getElementById("Menu-bar_Member").style.display = "none";
+    console.log("토큰존재 없음")
+    return;
+  }
+  console.log("토큰존재 있음")
+  try {
+    const response = await fetch("/login/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error("네트워크 이상.");
+    }
+    
+    const data = await response.json();
+    
+    console.log(data)
+    if (!data.valid) {
+      localStorage.removeItem("authToken");
+      window.location.href = "login.html";
+    } else {
+      if (data.token) {
+        localStorage.setItem("authToken", data.token);
+      }
+      if (data.admin == 1) {
+
+        document.getElementById("Menu-bar_Manager").style.display = "block";
+        document.getElementById("Menu-bar_Member").style.display = "none";
+      } else {
+        document.getElementById("Menu-bar_Manager").style.display = "none";
+        document.getElementById("Menu-bar_Member").style.display = "block";
+      }
+      document.getElementById("login_before").style.display = "none";
+      document.getElementById("login_after").style.display = "block";
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    window.location.href = "Login.html";
+  }
+
+});
+var mapContainer = document.getElementById("map"), // 지도를 표시할 div
+        mapOption = {
+          center: new kakao.maps.LatLng(36.852218718724714, 127.15027063479769), // 지도의 중심좌표
+          level: 6, // 지도의 확대 레벨
+        };
+      var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+      // 마커가 표시될 위치입니다
+      var markerPosition = new kakao.maps.LatLng(36.852218718724714, 127.15027063479769);
+
+      // 마커를 생성합니다
+      var marker = new kakao.maps.Marker({
+        position: markerPosition,
+      });
+
+      // 마커가 지도 위에 표시되도록 설정합니다
+      marker.setMap(map);
+
+      function setDraggable(draggable) {
+        // 마우스 드래그로 지도 이동 가능여부를 설정합니다
+        map.setDraggable(draggable);
+      }
+
+      function panTo() {
+        // 이동할 위도 경도 위치를 생성합니다
+        var moveLatLon = new kakao.maps.LatLng(36.852218718724714, 127.15027063479769);
+        // 지도 중심을 부드럽게 이동시킵니다
+        // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+        map.panTo(moveLatLon);
+      }
+      
+      function logout() {
+    localStorage.removeItem("authToken");
+    window.location.href = "Main.html";
+  }
+    </script> 
+    <script src="./js/New_script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+.c {
+  margin-top: 2%;
+}
+
+.calendar {
+  display: inline-block;
+  width: 62%;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  margin-left: 8%;
+}
+
+.month-nav-wrap {
+  display: flex;
+}
+
+.month-nav-btn {
+  display: block;
+  margin-left: 30%;
+  width: 0;
+  height: 0;
+  background-color: transparent;
+  border-right: 12px solid black;
+  border-bottom: 12px solid transparent;
+  border-left: 12px solid transparent;
+  border-top: 12px solid transparent;
+  cursor: pointer;
+}
+
+.month-nav-btn.next-month {
+  transform: rotate(180deg);
+  margin-left: 60px;
+}
+
+#month-title {
+  font-family: "NanumSquareNeoHeavy";
+  font-size: 33px;
+}
+
+.cal-table {
+  border-collapse: collapse;
+  background-color: white;
+  float: right;
+}
+
+.cal-table thead tr td {
+  height: 35px;
+}
+
+.cal-table tbody tr td {
+  width: 30px;
+  height: 45px;
+  padding: 2px;
+}
+
+.cal-head {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px;
+  font-family: "NanumSquareNeoBold";
+}
+
+.dayoff {
+  color: red;
+}
+
+.cal-item {
+  padding: 4px;
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+  flex-wrap: wrap;
+  border-radius: 8px;
+  width: 100%;
+  height: 100%;
+  font-family: "NanumSquareNeo";
+  font-size: 16px;
+  background-color: white;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.cal-item.active {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.cal-item:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.c {
+  height: 400px;
+  margin-left: 45%;
+}
