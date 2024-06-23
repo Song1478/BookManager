@@ -96,7 +96,6 @@ loan.post("/return_book", async (req, res) => {
     await conn.query(deleteLoanQuery, [id, b_num]);
     await conn.query(updateMemberQuery, [id]);
     await conn.query(updateBookQuery, [b_num]);
-    console.log("성공적 반납.");
     res.status(200).send("반납이 성공적으로 처리되었습니다");
   } catch (error) {
     console.error(error);
