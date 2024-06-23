@@ -9,7 +9,9 @@ document.addEventListener("DOMContentLoaded", function () {
   var change_id = document.getElementById("change_id"); //change만들차례 --> checkIdButton.addEventListener 이거써서 바꾸자
   let isIdChecked = false;
   let isEmailChecked = false;
+  //회원가입허용 ID 사전준비
   function setupIdCheck() {
+    //ID중복체크
     checkIdButton.addEventListener("click", async function () {
       const id = document.getElementById("member_id").value;
 
@@ -36,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
         check_id.style.display = "none";
       }
     });
-
+    //ID 중복체크 여부 검사기
     document.getElementById("signupForm").addEventListener("submit", function (event) {
       if (!isIdChecked) {
         event.preventDefault();
@@ -44,8 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
+  //회원가입허용 ID 사전준비
   function setupEmailCheck() {
+    //Email 중복체크
     checkEmailButton.addEventListener("click", async function () {
       const email = document.getElementById("email").value;
 
@@ -70,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         isEmailChecked = true;
       }
     });
-
+    //Email 검사기
     document.getElementById("signupForm").addEventListener("submit", function (event) {
       if (!isEmailChecked) {
         event.preventDefault();
@@ -78,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-
+  //로그인폼 id/pw값 서버로 보냄
   document.getElementById("loginForm").addEventListener("submit", async function (event) {
     event.preventDefault();
     const formData = new FormData(this);

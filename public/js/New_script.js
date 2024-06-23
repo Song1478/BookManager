@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const boardPage = document.getElementById("board_page");
 
   const board = document.getElementById("board");
-
+  //폼제출코드
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const searchInput = document.getElementById("booksearch_input").value;
@@ -34,9 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching search results:", error);
     }
   });
-
   //공지사항 로드 메서드
-
   notice_btn.addEventListener("click", async () => {
     try {
       const response = await fetch("/getNotice", {
@@ -64,6 +62,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   //공지사항 리스트 생성
   function display_notice_list(page) {
+    currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = notices.slice(startIndex, endIndex);
@@ -90,6 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 페이지네이션 버튼 생성
     createPaginationButtons();
   }
+  //페이지네이션 버튼 생성하기
   function createPaginationButtons() {
     const totalPages = Math.ceil(notices.length / itemsPerPage);
     boardPage.querySelectorAll(".bt,.num_p").forEach((btn) => btn.remove());
@@ -142,11 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 이전 페이지, 다음 페이지, 첫 페이지, 마지막 페이지 버튼을 추가합니다.
     boardPage.prepend(firstPageBtn, prevPageBtn);
     boardPage.append(nextPageBtn, lastPageBtn);
-
-    var login_check;
-
-    if (login_check == 1) {
-    }
   }
 });
 //공지사항 띄우기-----------------------------------------------
@@ -191,7 +186,6 @@ function close_board() {
     notice.style.display = "none";
   }
 }
-
 //tool button함수---------------------------------------------------
 function change_section(i) {
   var notice = document.getElementById("notice_N_dayoff");

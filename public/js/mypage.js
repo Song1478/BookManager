@@ -1,7 +1,7 @@
 let join_members = [];
 document.addEventListener("DOMContentLoaded", () => {
   const loan_info = document.getElementById("loan_info");
-
+  //현재회원정보 가져오기
   async function load_data() {
     const token = localStorage.getItem("authToken");
     try {
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "Notice.html";
     }
   }
-
+  //회원정보 서버에서 검색후 보여주기
   async function load_member_info() {
     const data = await load_data();
     console.log(data.id);
@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching search results:", error);
     }
   }
+  //회원 대출기록 검색후 보여주기
   async function load_loan_info() {
     const strong = document.getElementById("strong_none");
     const data = await load_data();
     const searchInput = data.id;
-    let over_due = 0;
     try {
       const response = await fetch("/loan/search_return", {
         method: "POST",
@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("서버오류:", error);
     }
   }
+  //화면변경
   function change_Modify() {
     console.log(join_members[0]);
     document.getElementById("p_num").textContent = join_members[0].num;

@@ -1,9 +1,10 @@
 let notices = [];
-
+let currentPage = 1;
+const itemsPerPage = 15;
+const pagesPerGroup = 5;
 document.addEventListener("DOMContentLoaded", async () => {
   const boardPage = document.getElementById("board_page");
   const board = document.getElementById("board");
-  const itemsPerPage = 15;
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth() + 1;
@@ -12,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = document.getElementById("searchForm");
   const reg_btn = document.getElementById("regist-Notice");
   const fix_btn = document.getElementById("fix-Notice");
+  const del_btn = document.getElementById("delete-book");
   load_Notice();
   //페이지 로드되고 바로 공지사항 로드
   async function load_Notice() {
@@ -83,6 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   //공지사항 리스트 생성
   function display_notice_list(page) {
+    currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const currentItems = notices.slice(startIndex, endIndex);
@@ -110,7 +113,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     // 페이지네이션 버튼 생성
     createPaginationButtons();
   }
-
+  //페이지네이션생성
   function createPaginationButtons() {
     const totalPages = Math.ceil(notices.length / itemsPerPage);
 
@@ -127,7 +130,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     prevPageBtn.className = "bt prev";
     prevPageBtn.textContent = "<";
     prevPageBtn.addEventListener("click", () => {
-      const currentPage = getCurrentPage();
       if (currentPage > 1) display_notice_list(currentPage - 1);
     });
 
@@ -136,7 +138,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     nextPageBtn.className = "bt next";
     nextPageBtn.textContent = ">";
     nextPageBtn.addEventListener("click", () => {
-      const currentPage = getCurrentPage();
+      console.log(currentPage);
       if (currentPage < totalPages) display_notice_list(currentPage + 1);
     });
 
@@ -146,8 +148,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     lastPageBtn.textContent = ">>";
     lastPageBtn.addEventListener("click", () => display_notice_list(totalPages));
 
+    const startPage = Math.floor((currentPage - 1) / pagesPerGroup) * pagesPerGroup + 1;
+    const endPage = Math.min(startPage + pagesPerGroup - 1, totalPages);
+
     // 페이지 버튼 생성
-    for (let i = 1; i <= totalPages; i++) {
+    for (let i = startPage; i <= endPage; i++) {
       const pageBtn = document.createElement("a");
       pageBtn.href = "#";
       pageBtn.className = "num_p";
@@ -157,6 +162,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         display_notice_list(i);
       });
+      if (i === currentPage) {
+        pageBtn.classList.add("on");
+      }
       boardPage.appendChild(pageBtn);
     }
     // 이전 페이지, 다음 페이지, 첫 페이지, 마지막 페이지 버튼을 추가합니다.
@@ -164,10 +172,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     boardPage.append(nextPageBtn, lastPageBtn);
   }
 
-  // 현재 페이지 번호를 가져오는 함수
-  function getCurrentPage() {
-    return parseInt(document.querySelector(".num.on").dataset.page);
-  }
   //토큰 확인
   async function load_data() {
     const token = localStorage.getItem("authToken");
@@ -229,6 +233,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert("서버 오류가 발생했습니다.");
     }
   });
+  //공지수정
   fix_btn.addEventListener("click", async function () {
     //token이용해서 id가 관리자의 id와 동일한지 확인.
     const data = await load_data();
@@ -265,6 +270,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert(`${data.name}님의 제목:${result.title}의 공지사항이 수정되었습니다.`);
       document.getElementById("Notice-add-modal-wrap").style.display = "none";
       window.location.href = "Notice.html";
+    } catch (error) {
+      console.error("Error:", error);
+      alert("서버 오류가 발생했습니다.");
+    }
+  });
+  //공지삭제
+  del_btn.addEventListener("click", async function () {
+    const noti_num = document.getElementById("noti_num").textContent;
+    try {
+      const response = await fetch("/getNotice/deletenotice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ noti_num: noti_num }),
+      });
+      const result = await response.text();
+      alert(result);
+      location.reload();
     } catch (error) {
       console.error("Error:", error);
       alert("서버 오류가 발생했습니다.");

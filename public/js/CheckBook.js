@@ -1,24 +1,30 @@
-let currentPage = 1;
+let currentPage = 1; //현재 페이지 번호 변수
 const itemsPerPage = 8; // 한 페이지에 표시할 아이템 수
-const pagesPerGroup = 5;
+const pagesPerGroup = 5; // 한 그룹에 표시할 페이지 수
 let books = []; // 검색 결과를 저장할 배열
-let returns = [];
-document.addEventListener("DOMContentLoaded", () => {
-  const boardPage = document.getElementById("board_page");
-  const board = document.getElementById("result_book_div"); // ID 수정
-  const user_search_btn = document.getElementById("user_search_btn");
-  const book_search_btn = document.getElementById("book_search_btn");
-  const return_search_btn = document.getElementById("return_search_btn");
-  const loan_btn = document.getElementById("loan_btn");
-  const p_id = document.getElementById("p_id");
-  const p_name = document.getElementById("p_name");
-  const p_gender = document.getElementById("p_gender");
-  const p_email = document.getElementById("p_email");
-  const p_hp = document.getElementById("p_hp");
-  const p_penalty_count = document.getElementById("p_penalty_count");
-  const p_loan_check = document.getElementById("p_loan_check");
-  const result_return_div = document.getElementById("result_return_div");
+let returns = []; // 반납 검색 결과를 저장할 배열
 
+//페이지의 Dom요소가 로드된 후 실행됨.
+document.addEventListener("DOMContentLoaded", () => {
+  const boardPage = document.getElementById("board_page"); // 페이지 네비게이션 요소
+  const board = document.getElementById("result_book_div"); // 도서 검색 결과를 표시할 요소
+  const user_search_btn = document.getElementById("user_search_btn"); // 회원 검색 버튼
+  const book_search_btn = document.getElementById("book_search_btn"); // 도서 검색 버튼
+  const return_search_btn = document.getElementById("return_search_btn"); // 반납 검색 버튼
+  const loan_btn = document.getElementById("loan_btn"); // 대출 버튼
+  const p_id = document.getElementById("p_id"); //회원id
+  const p_name = document.getElementById("p_name"); //회원이름
+  const p_gender = document.getElementById("p_gender"); //회원 성별
+  const p_email = document.getElementById("p_email"); //회원 email
+  const p_hp = document.getElementById("p_hp"); //회원 전화번호
+  const p_penalty_count = document.getElementById("p_penalty_count"); //회원 위반횟수
+  const p_loan_check = document.getElementById("p_loan_check"); //회원 대출가능표시 요소
+  const result_return_div = document.getElementById("result_return_div"); //반납검색 결과표시요소
+
+  /**
+   * 회원 검색 버튼 클릭 이벤트.
+   * 입력된 회원 ID를 가져와 서버로 보낸뒤 서버에서 해당 ID의 회원 정보를 응답하면 요소를 표시.
+   */
   user_search_btn.addEventListener("click", async function () {
     const search_value = document.getElementById("user_search_input").value;
     if (search_value == "") {
@@ -61,6 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /**
+   * 도서 검색 버튼 클릭 이벤트 입력받은 도서제목값을 서버에 보내서
+   * 응답받은 도서 데이터를 BOOKS배열에 저장, 공지사항 생성 메서드로 인자를 넘겨서 호출.
+   */
   book_search_btn.addEventListener("click", async function () {
     const searchInput = document.getElementById("book_search_input").value;
     if (searchInput === "") {
@@ -89,12 +99,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }));
 
       display_book_list(1);
-      console.log(books);
     } catch (error) {
       console.error("Error fetching search results:", error);
     }
   });
-
+  /**
+   * 도서 목록을 표시하는 함수
+   * 배열내의 아이템갯수를 계산하여 설정된 값만큼 잘라서 표시하며,
+   * innerhtml을 통해 div내에 직접 아이템을 생성.
+   *
+   * @param {현재 페이지}} page
+   */
   function display_book_list(page) {
     currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
@@ -119,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 페이지네이션 버튼 생성
     createPaginationButtons();
   }
-
+  //페이지네이션 버튼생성코드
   function createPaginationButtons() {
     const totalPages = Math.ceil(books.length / itemsPerPage);
     console.log(totalPages);
@@ -229,6 +244,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error during loan process:", error);
     }
   });
+  //책반납 버튼 이벤트리스너 메서드
   return_search_btn.addEventListener("click", async function () {
     const searchInput = document.getElementById("return_search_input").value;
     if (searchInput == "") {
@@ -262,12 +278,13 @@ document.addEventListener("DOMContentLoaded", () => {
         e_date: row.e_date,
         b_extension: row.b_extension,
       }));
+      //도서목록,공지사항목록 등 표시하는 방법과 같은 방법
       result_return_div.innerHTML = `<div class="top">
           <div class="b_num">책 번호</div>
           <div class="b_title">책 제목</div>
           <div class="s_date">대여일</div>
           <div class="e_date">반납일</div>
-          <div class="del_btn"> 삭제버튼</div>
+          <div class="del_btn"> 반납버튼</div>
         </div>`;
 
       returns.forEach((item) => {
@@ -279,7 +296,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="b_title" id="b_title_${item.b_num}">${item.b_title}</div>
           <div class="s_date" id="s_date_${item.b_num}">${item.s_date}</div>
           <div class="e_date" id="e_date_${item.b_num}">${item.e_date}</div>
-          <div class="del_btn" id="del_btn_${item.b_num}"><input type="button" class="del_button" onclick="return_book(${item.b_num})" value="삭제"></div>
+          <div class="del_btn" id="del_btn_${item.b_num}"><input type="button" class="del_button" onclick="return_book(${item.b_num})" value="반납"></div>
         `;
         result_return_div.appendChild(divItem);
       });

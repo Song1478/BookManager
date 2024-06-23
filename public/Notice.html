@@ -73,6 +73,9 @@
             <input id="fix-Notice" class="modal-btn" type="button" value="수정" style="display: none" />
             <input id="exit-modal" class="modal-btn" type="button" value="취소" onclick="ModalVisible(false,false)" />
           </div>
+          <div class="btn-wrap">
+            <input id="delete-book" class="modal-btn" type="button" value="삭제" />
+          </div>
         </div>
       </div>
     </section>
@@ -94,11 +97,13 @@
           contents.value = "";
           regist_btn.style.display = "block";
           fix_btn.style.display = "none";
+          document.getElementById("delete-book").style.display = "none";
         }
         if (state) {
           document.getElementById("Notice-add-modal-wrap").style.display = "block";
         } else {
           document.getElementById("Notice-add-modal-wrap").style.display = "none";
+          document.getElementById("delete-book").style.display = "block";
         }
       }
       function refresh() {

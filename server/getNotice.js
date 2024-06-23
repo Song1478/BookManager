@@ -135,6 +135,27 @@ async function check_Manager(id, num) {
     res.status(401).json({ message: "잘못된 증명서" });
   }
 }
+getNotice.post("/deletenotice", async (req, res) => {
+  const { noti_num } = req.body;
+  let conn;
+
+  try {
+    conn = await pool.getConnection();
+
+    // DELETE 쿼리 실행
+    const deleteQuery = "DELETE FROM notice WHERE noti_num = ?";
+    await conn.query(deleteQuery, noti_num);
+
+    res.send(`책 번호 ${noti_num}이(가) 삭제되었습니다.`);
+  } catch (error) {
+    console.error("쿼리 실행 오류:", error);
+    res.status(500).send("서버 오류 발생");
+  } finally {
+    if (conn) {
+      conn.release();
+    }
+  }
+});
 
 function formatDate(date) {
   const d = new Date(date);

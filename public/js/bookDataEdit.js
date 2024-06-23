@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const reg_btn = document.getElementById("regist-book");
   const fix_btn = document.getElementById("fix-book");
   const del_btn = document.getElementById("delete-book");
-
+  //폼제출(데이터서버에서받아와서 책리스트 생성호출)
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const searchInput = document.getElementById("search_bar").value;
@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error fetching search results:", error);
     }
   });
+  //도서리스트생성
   function display_book_list(page) {
     currentPage = page;
     const startIndex = (page - 1) * itemsPerPage;
@@ -133,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     boardPage.prepend(firstPageBtn, prevPageBtn);
     boardPage.append(nextPageBtn, lastPageBtn);
   }
-  //공지사항 등록
+  //도서 등록
   reg_btn.addEventListener("click", async function () {
     const b_title = document.getElementById("book_title").value;
     const b_writer = document.getElementById("book_writer").value;
@@ -176,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("서버 오류가 발생했습니다.");
     }
   });
+  //도서 수정
   fix_btn.addEventListener("click", async function () {
     const b_num = document.getElementById("book_num").textContent;
     const b_title = document.getElementById("book_title").value;
@@ -201,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
         },
         body: JSON.stringify(book_obj),
       });
-      console.log("왜안됨?");
       const result = await response.text();
       alert(result);
       location.reload();
@@ -210,6 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("서버 오류가 발생했습니다.");
     }
   });
+  //도서 삭제
   del_btn.addEventListener("click", async function () {
     const b_num = document.getElementById("book_num").textContent;
     try {
