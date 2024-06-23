@@ -1,3 +1,4 @@
+//메인 서버코드
 process.env.TZ = "Asia/Seoul";
 
 const express = require("express");

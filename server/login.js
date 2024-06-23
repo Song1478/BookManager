@@ -7,7 +7,7 @@ const pool = require("./db");
 login.use(bodyParser.json());
 
 const JWT_SECRET = "test_key"; // 임시 비밀 키
-
+//로그인 메서드
 login.post("/", async (req, res) => {
   const { id, password } = req.body;
   try {
@@ -29,7 +29,7 @@ login.post("/", async (req, res) => {
     res.status(500).json({ message: "Database error" });
   }
 });
-
+//토큰 확인 메서드
 login.post("/verify", (req, res) => {
   const token = req.headers["authorization"].split(" ")[1];
   if (!token) {

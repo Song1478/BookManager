@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
-  //회원가입허용 ID 사전준비
+  //회원가입허용 Email 사전준비
   function setupEmailCheck() {
     //Email 중복체크
     checkEmailButton.addEventListener("click", async function () {

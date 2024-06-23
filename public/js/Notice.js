@@ -191,6 +191,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       window.location.href = "Notice.html";
     }
   }
+  //공지삭제
+  del_btn.addEventListener("click", async function () {
+    const noti_num = document.getElementById("noti_num").textContent;
+    try {
+      const response = await fetch("/getNotice/deletenotice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ noti_num: noti_num }),
+      });
+      const result = await response.text();
+      alert(result);
+      location.reload();
+    } catch (error) {
+      console.error("Error:", error);
+      alert("서버 오류가 발생했습니다.");
+    }
+  });
   //공지사항 등록
   reg_btn.addEventListener("click", async function () {
     const data = await load_data();
@@ -270,25 +289,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       alert(`${data.name}님의 제목:${result.title}의 공지사항이 수정되었습니다.`);
       document.getElementById("Notice-add-modal-wrap").style.display = "none";
       window.location.href = "Notice.html";
-    } catch (error) {
-      console.error("Error:", error);
-      alert("서버 오류가 발생했습니다.");
-    }
-  });
-  //공지삭제
-  del_btn.addEventListener("click", async function () {
-    const noti_num = document.getElementById("noti_num").textContent;
-    try {
-      const response = await fetch("/getNotice/deletenotice", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ noti_num: noti_num }),
-      });
-      const result = await response.text();
-      alert(result);
-      location.reload();
     } catch (error) {
       console.error("Error:", error);
       alert("서버 오류가 발생했습니다.");

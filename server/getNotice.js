@@ -1,7 +1,7 @@
 const express = require("express");
 const getNotice = express.Router();
 const pool = require("./db");
-
+//공지사항을 전부 보내는 메서드
 getNotice.post("/", async (req, res) => {
   let conn;
 
@@ -35,7 +35,7 @@ getNotice.post("/", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//공지사항 추가메서드
 getNotice.post("/addNotice", async (req, res) => {
   let conn;
   const { title, contents, Manager_name, date, count, Manager_id } = req.body;
@@ -48,8 +48,6 @@ getNotice.post("/addNotice", async (req, res) => {
     const resQuery =
       "SELECT noti_num FROM notice WHERE title = ? AND contents = ?  AND Manager_name = ? AND date = ? AND count = ? AND Manager_id = ?";
     const find = await conn.query(resQuery, [title, contents, Manager_name, date, count, Manager_id]);
-
-    console.log(find);
     console.log("데이터베이스에 값이 성공적으로 삽입되었습니다.");
     res.send(find);
   } catch (error) {
@@ -61,13 +59,12 @@ getNotice.post("/addNotice", async (req, res) => {
     }
   }
 });
-
+//공지사항 수정메서드
 getNotice.post("/fixNotice", async (req, res) => {
   let conn;
   const { noti_num, title, contents, date, Manager_id } = req.body;
   console.log("실행");
   const isManager = await check_Manager(Manager_id, noti_num);
-  console.log(isManager);
   if (isManager == 1) {
     console.log("글쓴이가 아닙니다. 권한없음.");
     res.send({ isFalse: 1 });
@@ -76,7 +73,6 @@ getNotice.post("/fixNotice", async (req, res) => {
   //맞는지 확인되었다면,본격적인 교체작업 진행.
   try {
     conn = await pool.getConnection();
-
     const query = "UPDATE notice SET title = ?, contents = ?, date= ? WHERE noti_num = ?";
     await conn.query(query, [title, contents, date, noti_num]);
     console.log("데이터베이스에 값이 성공적으로 교체되었습니다.");
@@ -135,6 +131,7 @@ async function check_Manager(id, num) {
     res.status(401).json({ message: "잘못된 증명서" });
   }
 }
+//공지사항 삭제메서드
 getNotice.post("/deletenotice", async (req, res) => {
   const { noti_num } = req.body;
   let conn;
@@ -156,7 +153,7 @@ getNotice.post("/deletenotice", async (req, res) => {
     }
   }
 });
-
+//날짜 데이터 폼 변경
 function formatDate(date) {
   const d = new Date(date);
   let month = "" + (d.getMonth() + 1);

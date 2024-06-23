@@ -1,14 +1,13 @@
 const express = require("express");
 const loan = express.Router();
 const pool = require("./db");
-
+//도서 대여 메서드
 loan.post("/", async (req, res) => {
   let conn;
   const member_id = req.body.member_id;
   const b_num = req.body.b_num;
   const b_title = req.body.b_title;
   const loan_date = new Date();
-  console.log(b_title);
   try {
     conn = await pool.getConnection();
     //중복도서 검색
@@ -56,7 +55,7 @@ loan.post("/", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//도서 반납 메서드
 loan.post("/return_book", async (req, res) => {
   const id = req.body.id;
   const b_num = req.body.b_num;
@@ -106,7 +105,7 @@ loan.post("/return_book", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//대여기록 보내는 메서드
 loan.post("/search_return", async (req, res) => {
   const member_id = req.body.member_id;
   let conn;

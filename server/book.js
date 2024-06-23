@@ -2,6 +2,7 @@ const express = require("express");
 const book = express.Router();
 const pool = require("./db");
 
+//도서 등록 메서드
 book.post("/addbook", async (req, res) => {
   let conn;
   const { b_title, b_writer, b_publish, b_info, b_amount } = req.body;
@@ -26,6 +27,7 @@ book.post("/addbook", async (req, res) => {
     }
   }
 });
+//도서 수정 메서드
 book.post("/fixbook", async (req, res) => {
   let conn;
   const { b_num, b_title, b_writer, b_publish, b_info, b_amount } = req.body;
@@ -49,6 +51,7 @@ book.post("/fixbook", async (req, res) => {
     }
   }
 });
+//도서 삭제 메서드
 book.post("/deletebook", async (req, res) => {
   const { b_num } = req.body;
   let conn;

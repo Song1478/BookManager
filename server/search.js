@@ -1,7 +1,7 @@
 const express = require("express");
 const search = express.Router();
 const pool = require("./db");
-
+//도서 검색메서드
 search.post("/", async (req, res) => {
   let conn;
   const b_title = req.body.b_title;
@@ -37,7 +37,7 @@ search.post("/", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//공지사항 검색 메서드
 search.post("/search_Notice", async (req, res) => {
   let conn;
   const title = req.body.title;
@@ -45,7 +45,6 @@ search.post("/search_Notice", async (req, res) => {
     conn = await pool.getConnection();
     const titleQuery = "SELECT * FROM notice WHERE title LIKE ?";
     const rows = await conn.query(titleQuery, [`%${title}%`]);
-    console.log(rows);
     if (rows.length > 0) {
       const notices = [];
       for (const row of rows) {
@@ -73,7 +72,7 @@ search.post("/search_Notice", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//전체 회원 검색 메서드
 search.post("/join_Member", async (req, res) => {
   let conn;
 
@@ -111,7 +110,7 @@ search.post("/join_Member", async (req, res) => {
     if (conn) conn.release();
   }
 });
-
+//회원 검색 메서드
 search.post("/search_Member", async (req, res) => {
   let conn;
   const name = req.body.name;
@@ -125,11 +124,9 @@ search.post("/search_Member", async (req, res) => {
       console.log(member_id);
       const idQuery = "SELECT * FROM member_join WHERE member_id = ?";
       rows = await conn.query(idQuery, [member_id]);
-      console.log(rows);
     } else if (name) {
       const nameQuery = "SELECT * FROM member_join WHERE name LIKE ?";
       rows = await conn.query(nameQuery, [`%${name}%`]);
-      console.log(rows);
     }
     console.log(rows);
     if (rows.length > 0) {
@@ -151,7 +148,6 @@ search.post("/search_Member", async (req, res) => {
         join_members.push(join_member);
       }
       res.json(join_members);
-      //  res.json(rows);
     } else {
       console.log("결과값이 없다.");
       res.send({ isFalse: 1 });
