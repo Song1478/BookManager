@@ -75,7 +75,31 @@
             <div class="board_wrap">
               <div class="notice_wrap">
                 <div class="board_view_wrap" id="board_view_wrap" style="display: none">
-                </div>
+                
+                  <div class="board_view" id="board_view">
+                    <div class="title" id="div_title">${filter_item.title}
+                    <input type="button" onclick="close_board()" value="닫기" style="float: right; font-size: 25px; background-color: rgb(232, 255, 216); cursor: pointer;">   </div>
+                    <div class="board_info">
+                      <dl>
+                        <dt>번호</dt>
+                        <dd id="dd_noti_num"></dd>
+                      </dl>
+                      <dl>
+                        <dt>글쓴이</dt>
+                        <dd id="dd_writer"></dd>
+                      </dl>
+                      <dl>
+                        <dt>작성일</dt>
+                        <dd id="dd_date"></dd>
+                      </dl>
+                      <dl>
+                        <dt>조회</dt>
+                        <dd id="dd_count"></dd>
+                      </dl>
+                    </div>
+                    <div id="div_contents" class="cont">
+                    </div>
+                  </div></div>
               </div>
               <div class="board_list" >
                 <div class="board" id="board">

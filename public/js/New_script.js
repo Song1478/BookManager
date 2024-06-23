@@ -12,15 +12,18 @@ document.addEventListener("DOMContentLoaded", () => {
   //폼제출코드
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    //메인페이지의 입력창의 입력값 가져오기
     const searchInput = document.getElementById("booksearch_input").value;
+    //미입력 검사기
     if (searchInput === "") {
       alert("검색어를 입력해주세요");
       return;
     }
     try {
+      //시간 설정 데이터가 쌓이지않게 쿠키가 1회 읽혀지고 삭제되게 짧은 시간설정.
       var expiresTime = new Date();
       expiresTime.setTime(expiresTime.getTime() + 3 * 1000);
-
+      //쿠키 데이터 설정 입력값과 이 쿠키 데이터가 메인 페이지에서 넘어온것임을 확인하는 변수.
       document.cookie = "Search_text=" + searchInput + "; expires=" + expiresTime.toUTCString() + "; path=/";
       document.cookie = "main_search=1; expires=" + expiresTime.toUTCString() + "; path=/";
       //쿠키삭제
@@ -28,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.cookie = "Search_text=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         document.cookie = "main_search=1; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
       }, 3 * 1000);
-
+      //검색결과 페이지로 이동.
       window.location.href = "SearchResult.html";
     } catch (error) {
       console.error("Error fetching search results:", error);
@@ -147,35 +150,23 @@ document.addEventListener("DOMContentLoaded", () => {
 //공지사항 띄우기-----------------------------------------------
 function display_notice(k) {
   var notice = document.getElementById("board_view_wrap");
-
+  //공지사항 로드를 통해 가져온 객체 배열에서 (k)번의 공지사항을 골라냄.
   const filternotice = notices.filter((item) => item.noti_num === k);
-
   const filter_item = filternotice[0];
-  notice.innerHTML = `<div class="board_view" id="board_view">
-  <div class="title">${filter_item.title}
-  <input type="button" onclick="close_board()" value="닫기" style="float: right; font-size: 25px; background-color: rgb(232, 255, 216); cursor: pointer;">   </div>
-  <div class="board_info">
-    <dl>
-      <dt>번호</dt>
-      <dd>${filter_item.noti_num}</dd>
-    </dl>
-    <dl>
-      <dt>글쓴이</dt>
-      <dd>${filter_item.Manager_name}</dd>
-    </dl>
-    <dl>
-      <dt>작성일</dt>
-      <dd>${filter_item.date}</dd>
-    </dl>
-    <dl>
-      <dt>조회</dt>
-      <dd>${filter_item.count}</dd>
-    </dl>
-  </div>
-  <div class="cont">
-  ${filter_item.contents}
-  </div>
-</div>`;
+  const div_title = document.getElementById("div_title");
+  const dd_noti_num = document.getElementById("dd_noti_num");
+  const dd_writer = document.getElementById("dd_writer");
+  const dd_date = document.getElementById("dd_date");
+  const dd_count = document.getElementById("dd_count");
+  const div_contents = document.getElementById("div_contents");
+  //(k)번의 공지사항의 데이터를  밑의 형식에따라
+  div_title.textContent = filter_item.title;
+  dd_noti_num.textContent = filter_item.noti_num;
+  dd_writer.textContent = filter_item.writer;
+  dd_date.textContent = filter_item.date;
+  dd_count.textContent = filter_item.count;
+  div_contents.textContent = filter_item.contents;
+
   if (notice.style.display == "none") {
     notice.style.display = "block";
   }
